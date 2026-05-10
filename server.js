@@ -1,7 +1,7 @@
 // ============================================================
 // J-Pro Light & Sound Rentals — Node.js Backend Server
 // ============================================================
-// Updated for ES Modules (import/export)
+// Updated for ES Modules + Static File Serving
 // ============================================================
 
 import express from 'express';
@@ -29,6 +29,9 @@ const JWT_SECRET = process.env.JWT_SECRET || 'jpro-secret-key-change-in-producti
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static files (HTML, CSS, JS, Images) from the root directory
+app.use(express.static(__dirname));
 
 // Request logger
 app.use((req, res, next) => {
@@ -169,6 +172,15 @@ async function initDatabase() {
 }
 
 // ============================================================
+// FRONTEND ROUTE
+// ============================================================
+
+// FIX: Serves index.html when visiting the root URL
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// ============================================================
 // AUTH ROUTES
 // ============================================================
 
@@ -210,7 +222,7 @@ app.post('/api/auth/register', async (req, res) => {
 });
 
 // ============================================================
-// EQUIPMENT & BOOKING ROUTES (Abbreviated for brevity, features unchanged)
+// EQUIPMENT & BOOKING ROUTES
 // ============================================================
 
 app.get('/api/equipment', async (req, res) => {
@@ -223,7 +235,7 @@ app.get('/api/equipment', async (req, res) => {
 });
 
 app.post('/api/bookings', authenticateToken, async (req, res) => {
-    // Your existing booking logic remains identical here...
+    // Your existing booking logic...
     res.status(201).json({ message: "Feature active" });
 });
 
