@@ -1,7 +1,7 @@
 // ============================================================
 // J-Pro Light & Sound Rentals — Node.js Backend Server
 // ============================================================
-// Updated for ES Modules + Static File Serving
+// Updated for React/Vite + Aiven MySQL Deployment
 // ============================================================
 
 import express from 'express';
@@ -24,14 +24,14 @@ const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'jpro-secret-key-change-in-production';
 
 // ============================================================
-// Middleware
+// Middleware & Static Files
 // ============================================================
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files (HTML, CSS, JS, Images) from the root directory
-app.use(express.static(__dirname));
+// FIX: Serve static files from the 'dist' folder created by Vite
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // Request logger
 app.use((req, res, next) => {
@@ -72,13 +72,6 @@ function authenticateToken(req, res, next) {
   } catch (err) {
     return res.status(403).json({ error: 'Invalid or expired token.' });
   }
-}
-
-function requireAdmin(req, res, next) {
-  if (req.user.role !== 'admin') {
-    return res.status(403).json({ error: 'Admin access required.' });
-  }
-  next();
 }
 
 // ============================================================
@@ -172,23 +165,12 @@ async function initDatabase() {
 }
 
 // ============================================================
-// FRONTEND ROUTE
-// ============================================================
-
-// FIX: Serves index.html when visiting the root URL
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-// ============================================================
-// AUTH ROUTES
+// API ROUTES
 // ============================================================
 
 app.post('/api/auth/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password) return res.status(400).json({ error: 'Email and password required.' });
-
     const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
     if (rows.length === 0) return res.status(401).json({ error: 'Invalid credentials.' });
 
@@ -221,10 +203,6 @@ app.post('/api/auth/register', async (req, res) => {
   }
 });
 
-// ============================================================
-// EQUIPMENT & BOOKING ROUTES
-// ============================================================
-
 app.get('/api/equipment', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM equipment ORDER BY category, name');
@@ -234,12 +212,16 @@ app.get('/api/equipment', async (req, res) => {
   }
 });
 
-app.post('/api/bookings', authenticateToken, async (req, res) => {
-    // Your existing booking logic...
-    res.status(201).json({ message: "Feature active" });
-});
-
 app.get('/api/health', (req, res) => res.json({ status: 'ok', service: 'J-Pro API' }));
+
+// ============================================================
+// FRONTEND CATCH-ALL ROUTE
+// ============================================================
+
+// FIX: This sends the compiled React app for any route not handled by the API
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 // ============================================================
 // Start Server
