@@ -246,7 +246,24 @@ export default function Login({ onLogin }: LoginProps) {
             </button>
           </form>
 
-         
+         // Inside your Login component, add this state:
+const [isRegistering, setIsRegistering] = useState(false);
+
+// Then, wrap your return statement logic:
+if (isRegistering) {
+  return <Register onBack={() => setIsRegistering(false)} />;
+}
+
+// At the bottom of your Login form (before the footer), add:
+<p className="text-center text-sm text-gray-400 mt-6">
+  Don't have an account?{' '}
+  <button 
+    onClick={() => setIsRegistering(true)}
+    className="text-yellow-500 hover:text-yellow-400 font-semibold transition-colors"
+  >
+    Create an account
+  </button>
+</p>
              
           {/* Footer */}
           <p className="text-center text-xs text-gray-600 mt-8">
