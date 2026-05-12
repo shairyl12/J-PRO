@@ -254,24 +254,7 @@ export default function Login({ onLogin }: LoginProps) {
                 onClick={fillDemoCredentials}
                 className="text-xs text-yellow-400 hover:text-yellow-300 font-medium transition-colors"
               >
-                Auto-fill →
-              </button>
-            </div>
-            <div className="space-y-1">
-              <p className="text-xs text-gray-500">
-                <span className="text-gray-400">Email:</span> {role === 'admin' ? 'admin@jpro.com' : 'maria@santosweddings.com'}
-              </p>
-              <p className="text-xs text-gray-500">
-                <span className="text-gray-400">Password:</span> {role === 'admin' ? 'admin123' : 'customer123'}
-              </p>
-              {role === 'customer' && (
-                <p className="text-xs text-gray-600 mt-2">
-                  All 5 demo customers use password: customer123
-                </p>
-              )}
-            </div>
-          </div>
-
+             
           {/* Footer */}
           <p className="text-center text-xs text-gray-600 mt-8">
             © 2025 J-Pro Light & Sound Rentals. Secure login powered by Node.js + Aiven.
