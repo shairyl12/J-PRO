@@ -246,26 +246,84 @@ export default function Login({ onLogin }: LoginProps) {
             </button>
           </form>
 
-         // Inside your Login component, add this state:
-const [isRegistering, setIsRegistering] = useState(false);
+/* ... (Keep all your imports and state at the top) ... */
 
-// Then, wrap your return statement logic:
-if (isRegistering) {
-  return <Register onBack={() => setIsRegistering(false)} />;
-}
+export default function Login({ onLogin }: LoginProps) {
+  /* ... (Keep your existing states and handleSubmit function) ... */
 
-// At the bottom of your Login form (before the footer), add:
-<p className="text-center text-sm text-gray-400 mt-6">
-  Don't have an account?{' '}
-  <button 
-    onClick={() => setIsRegistering(true)}
-    className="text-yellow-500 hover:text-yellow-400 font-semibold transition-colors"
-  >
-    Create an account
-  </button>
-</p>
-             
-          {/* Footer */}
+  const fillDemoCredentials = () => {
+    if (role === 'admin') {
+      setEmail('admin@jpro.com');
+      setPassword('admin123');
+    } else {
+      setEmail('maria@santosweddings.com');
+      setPassword('customer123');
+    }
+    setError('');
+  };
+
+  // 1. Keep the registration toggle logic here
+  if (isRegistering) {
+    return <Register onBack={() => setIsRegistering(false)} />;
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-950 flex">
+      {/* ... (Keep Left Side Branding) ... */}
+
+      <div className="flex-1 flex items-center justify-center p-8">
+        <div className="w-full max-w-md">
+          {/* ... (Keep Header and Role Toggle) ... */}
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* ... (Keep Email and Password Inputs) ... */}
+
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4">
+                <p className="text-red-400 text-sm">{error}</p>
+              </div>
+            )}
+
+            <button type="submit" disabled={loading} className="...">
+              {/* ... button content ... */}
+            </button>
+          </form>
+
+          {/* --- DEMO CREDENTIALS BOX ADDED BACK HERE --- */}
+          <div className="mt-8 p-4 bg-gray-900/50 border border-gray-800 rounded-xl">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Demo Credentials</h3>
+              <button 
+                onClick={fillDemoCredentials}
+                className="text-[10px] font-bold text-yellow-500 hover:text-yellow-400 uppercase tracking-tight flex items-center gap-1"
+              >
+                Auto-fill <ArrowRight size={10} />
+              </button>
+            </div>
+            <div className="space-y-1">
+              <p className="text-sm text-gray-400">
+                <span className="text-gray-500">Email:</span> {role === 'admin' ? 'admin@jpro.com' : 'maria@santosweddings.com'}
+              </p>
+              <p className="text-sm text-gray-400">
+                <span className="text-gray-500">Password:</span> {role === 'admin' ? 'admin123' : 'customer123'}
+              </p>
+            </div>
+            <p className="mt-3 text-[10px] text-gray-600 italic">
+              {role === 'customer' ? 'All 5 demo customers use password: customer123' : 'System admin account for full access'}
+            </p>
+          </div>
+
+          {/* Registration Toggle Link */}
+          <p className="text-center text-sm text-gray-400 mt-6">
+            Don't have an account?{' '}
+            <button 
+              onClick={() => setIsRegistering(true)}
+              className="text-yellow-500 hover:text-yellow-400 font-semibold"
+            >
+              Create an account
+            </button>
+          </p>
+
           <p className="text-center text-xs text-gray-600 mt-8">
             © 2025 J-Pro Light & Sound Rentals. Secure login powered by Node.js + Aiven.
           </p>
