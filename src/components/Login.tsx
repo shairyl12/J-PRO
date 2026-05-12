@@ -246,14 +246,7 @@ export default function Login({ onLogin }: LoginProps) {
             </button>
           </form>
 
-          {/* Demo Credentials */}
-          <div className="mt-6 bg-gray-800/30 border border-gray-700/30 rounded-xl p-4">
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Demo Credentials</p>
-              <button
-                onClick={fillDemoCredentials}
-                className="text-xs text-yellow-400 hover:text-yellow-300 font-medium transition-colors"
-              >
+         
              
           {/* Footer */}
           <p className="text-center text-xs text-gray-600 mt-8">
