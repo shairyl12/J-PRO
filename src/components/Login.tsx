@@ -324,6 +324,9 @@ export default function Login({ onLogin }: LoginProps) {
             </button>
           </p>
 
+       
+             
+          {/* Footer */}
           <p className="text-center text-xs text-gray-600 mt-8">
             © 2025 J-Pro Light & Sound Rentals. Secure login powered by Node.js + Aiven.
           </p>
