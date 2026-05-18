@@ -138,17 +138,9 @@ export default function App() {
         {/* Footer */}
         <footer className="border-t border-gray-100 px-6 py-4 mt-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-400">
-            <p>© 2025 J-Pro Light & Sound Rentals. All rights reserved.</p>
+            <p>Barangay Palongpong Hinunangan Southern Leyte</p>
+            <p>© 2026 J-Pro Light & Sound Rentals. All rights reserved.</p>
             <div className="flex items-center gap-4">
-              <span className="flex items-center gap-1">
-                <span className="w-1.5 h-1.5 bg-green-400 rounded-full"></span>
-                Node.js Backend
-              </span>
-              <span className="flex items-center gap-1">
-                <span className="w-1.5 h-1.5 bg-green-400 rounded-full"></span>
-                Aiven Cloud DB
-              </span>
-              <span>v2.1.0</span>
             </div>
           </div>
         </footer>
